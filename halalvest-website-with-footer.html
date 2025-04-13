@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HalalVest - Shariah-Compliant Investment Platform</title>
+  <!-- Tailwind CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Feather Icons -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+  <style>
+    /* Custom styles to match shadcn/ui components */
+    .card {
+      background-color: white;
+      border-radius: 0.5rem;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .card-header {
+      padding: 1.5rem;
+      padding-bottom: 0.75rem;
+    }
+    
+    .card-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #111827;
+    }
+    
+    .card-description {
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+    
+    .card-content {
+      padding: 1.5rem;
+      padding-top: 0;
+    }
+    
+    .tabs-list {
+      display: flex;
+      background-color: #f3f4f6;
+      border-radius: 0.5rem;
+      padding: 0.25rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .tabs-trigger {
+      flex: 1;
+      padding: 0.5rem 0.75rem;
+      text-align: center;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    
+    .tabs-trigger.active {
+      background-color: white;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+      color: #111827;
+    }
+    
+    .tabs-trigger:not(.active) {
+      color: #6b7280;
+    }
+    
+    .tabs-trigger:not(.active):hover {
+      color: #111827;
+    }
+    
+    .tabs-content {
+      display: none;
+    }
+    
+    .tabs-content.active {
+      display: block;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      height: 2.5rem;
+      padding: 0 1rem;
+      cursor: pointer;
+    }
+    
+    .btn:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+    }
+    
+    .btn-primary {
+      background-color: #059669;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: #047857;
+      transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+      background-color: white;
+      color: #111827;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #f3f4f6;
+      transform: translateY(-2px);
+    }
+    
+    .btn-outline {
+      border: 1px solid #d1d5db;
+      background-color: transparent;
+      color: #111827;
+    }
+    
+    .btn-outline:hover {
+      background-color: #f9fafb;
+      transform: translateY(-2px);
+    }
+    
+    .btn-lg {
+      height: 3rem;
+      padding: 0 1.5rem;
+      font-size: 1rem;
+    }
+    
+    .input {
+      display: flex;
+      height: 2.5rem;
+      width: 100%;
+      border-radius: 0.375rem;
+      border: 1px solid #d1d5db;
+      background-color: white;
+      padding: 0 0.75rem;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+    
+    .input:focus {
+      outline: none;
+      border-color: transparent;
+      box-shadow: 0 0 0 2px #059669;
+    }
+    
+    .input::placeholder {
+      color: #9ca3af;
+    }
+    
+    /* Special styles for white outline button in hero section */
+    .hero-btn-outline {
+      border: 1px solid white;
+      color: white;
+    }
+    
+    .hero-btn-outline:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Progress bar styles */
+    .progress-bar {
+      height: 0.5rem;
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+    
+    .progress-value {
+      height: 100%;
+      background-color: #059669;
+      transition: width 1s ease-in-out;
+    }
+
+    /* Modal styles */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    
+    .modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    
+    .modal-content {
+      background-color: white;
+      border-radius: 0.5rem;
+      max-width: 32rem;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+    
+    .modal.active .modal-content {
+      transform: scale(1);
+    }
+
+    /* Badge styles */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 9999px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    
+    .badge-success {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+    
+    .badge-warning {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+    
+    .badge-danger {
+      background-color: #fee2e2;
+      color: #b91c1c;
+    }
+
+    /* Range slider styles */
+    .range-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 0.5rem;
+      border-radius: 9999px;
+      background: #e5e7eb;
+      outline: none;
+      transition: all 0.2s;
+    }
+    
+    .range-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: 50%;
+      background: #059669;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .range-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.2);
+    }
+
+    /* Tag input styles */
+    .tag-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      padding: 0.5rem;
+      min-height: 2.5rem;
+      background-color: white;
+    }
+    
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      background-color: #f3f4f6;
+      border-radius: 0.25rem;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+      animation: scaleIn 0.2s ease-out;
+    }
+    
+    @keyframes scaleIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    
+    .tag-remove {
+      margin-left: 0.25rem;
+      cursor: pointer;
+      color: #6b7280;
+      transition: color 0.2s;
+    }
+    
+    .tag-remove:hover {
+      color: #ef4444;
+    }
+
+    /* Steps styles */
+    .steps {
+      display: flex;
+      counter-reset: step;
+      margin-bottom: 1.5rem;
+    }
+    
+    .step {
+      position: relative;
+      flex: 1;
+      padding-bottom: 1.5rem;
+      text-align: center;
+    }
+    
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      background-color: #f3f4f6;
+      border-radius: 9999px;
+      margin: 0 auto 0.5rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .step::after {
+      content: '';
+      position: absolute;
+      top: 1rem;
+      left: calc(50% + 1rem);
+      right: calc(50% - 1rem);
+      height: 2px;
+      background-color: #f3f4f6;
+      z-index: -1;
+      transition: background-color 0.3s ease;
+    }
+    
+    .step:last-child::after {
+      display: none;
+    }
+    
+    .step.completed::before {
+      background-color: #059669;
+      color: white;
+    }
+    
+    .step.completed::after {
+      background-color: #059669;
+    }
+    
+    .step.active::before {
+      border: 2px solid #059669;
+      box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.2);
+    }
+    
+    /* Tooltip styles */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .tooltip-text {
+      visibility: hidden;
+      width: 200px;
+      background-color: #333;
+      color: white;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .tooltip:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+    
+    /* Testimonial styles */
+    .testimonial {
+      position: relative;
+      padding: 1.5rem;
+      background-color: #f9fafb;
+      border-radius: 0.5rem;
+    }
+    
+    .testimonial::before {
+      content: """;
+      position: absolute;
+      top: -0.5rem;
+      left: 1rem;
+      font-size: 4rem;
+      color: #059669;
+      opacity: 0.2;
+      line-height: 1;
+    }
+    
+    /* Animation */
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    .animate-slide-up {
+      animation: slideUp 0.5s ease-out;
+    }
+    
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    /* Mobile menu */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      z-index: 40;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+    
+    .mobile-menu.active {
+      transform: translateX(0);
+    }
+    
+    /* News ticker */
+    .news-ticker {
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+    }
+    
+    .news-ticker-content {
+      display: inline-block;
+      animation: ticker 20s linear infinite;
+      padding-right: 50px;
+    }
+    
+    @keyframes ticker {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    
+    /* Notification dot */
+    .notification-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #ef4444;
+      border-radius: 50%;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+    
+    /* Custom select */
+    .custom-select {
+      position: relative;
+    }
+    
+    .custom-select::after {
+      content: "";
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid #6b7280;
+      pointer-events: none;
+    }
+    
+    /* Dark mode toggle */
+    .dark-mode-toggle {
+      width: 3rem;
+      height: 1.5rem;
+      border-radius: 9999px;
+      background-color: #e5e7eb;
+      position: relative;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .dark-mode-toggle.active {
+      background-color: #059669;
+    }
+    
+    .dark-mode-toggle::after {
+      content: "";
+      position: absolute;
+      top: 0.125rem;
+      left: 0.125rem;
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: 50%;
+      background-color: white;
+      transition: transform 0.3s;
+    }
+    
+    .dark-mode-toggle.active::after {
+      transform: translateX(1.5rem);
+    }
+    
+    /* Floating action button */
+    .fab {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 50%;
+      background-color: #059669;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      cursor: pointer;
+      z-index: 20;
+      transition: all 0.3s;
+    }
+    
+    .fab:hover {
+      transform: scale(1.1);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #059669;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #047857;
+    }
+
+    /* Footer styles */
+    .footer {
+      background-color: #f9fafb;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .social-icon {
+      transition: all 0.2s;
+    }
+
+    .social-icon:hover {
+      transform: translateY(-3px);
+      color: #059669;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+  <!-- Announcement Banner -->
+  <div class="bg-green-600 text-white px-4 py-2 text-center text-sm">
+    <div class="news-ticker">
+      <div class="news-ticker-content">
+        🌙 New investment opportunities available for Ramadan 2025! | 📈 HalalVest reaches $50M total investments milestone | 🎓 Join our upcoming webinar: "Understanding Shariah-Compliant Investments" - April 20, 2025
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="bg-white shadow-sm sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+          <i data-feather="hand" class="h-8 w-8 text-green-600"></i>
+          <span class="text-2xl font-bold text-gray-900">HalalVest</span>
+        </div>
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="#" class="text-gray-500 hover:text-gray-900 transition-colors">Home</a>
+          <a href="#" class="text-gray-500 hover:text-gray-900 transition-colors">Browse Investments</a>
+          <a href="#" class="text-gray-500 hover:text-gray-900 transition-colors">List Business</a>
+          <a href="#" class="text-gray-500 hover:text-gray-900 transition-colors">Education</a>
+          <a href="#" class="text-gray-500 hover:text-gray-900 transition-colors">Community</a>
+        </div>
+        <div class="flex space-x-4 items-center">
+          <div class="hidden md:flex items-center mr-4">
+            <div class="dark-mode-toggle">
+              <span class="sr-only">Toggle dark mode</span>
+            </div>
+          </div>
+          <div class="relative mr-2 hidden md:block">
+            <button class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+              <i data-feather="bell" class="h-5 w-5 text-gray-500"></i>
+              <span class="notification-dot"></span>
+            </button>
+          </div>
+          <button class="btn btn-outline">Login</button>
+          <button class="btn btn-primary">Register</button>
+          <button class="md:hidden" id="mobile-menu-button">
+            <i data-feather="menu" class="h-6 w-6 text-gray-500"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu md:hidden">
+    <div class="p-4 flex justify-between items-center border-b">
+      <div class="flex items-center space-x-2">
+        <i data-feather="hand" class="h-8 w-8 text-green-600"></i>
+        <span class="text-2xl font-bold text-gray-900">HalalVest</span>
+      </div>
+      <button id="close-mobile-menu">
+        <i data-feather="x" class="h-6 w-6 text-gray-500"></i>
+      </button>
+    </div>
+    <div class="p-4">
+      <nav class="space-y-6">
+        <a href="#" class="block text-gray-900 font-medium py-2">Home</a>
+        <a href="#" class="block text-gray-900 font-medium py-2">Browse Investments</a>
+        <a href="#" class="block text-gray-900 font-medium py-2">List Business</a>
+        <a href="#" class="block text-gray-900 font-medium py-2">Education</a>
+        <a href="#" class="block text-gray-900 font-medium py-2">Community</a>
+        <div class="pt-4 border-t">
+          <div class="flex items-center justify-between py-2">
+            <span class="text-gray-900 font-medium">Dark Mode</span>
+            <div class="dark-mode-toggle">
+              <span class="sr-only">Toggle dark mode</span>
+            </div>
+          </div>
+        </div>
+        <div class="pt-4 space-y-2">
+          <button class="btn btn-primary w-full">Register</button>
+          <button class="btn btn-outline w-full">Login</button>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <div style="background: linear-gradient(to right, #059669, #065f46);" class="text-white py-16 relative overflow-hidden">
+    <!-- Background pattern -->
+    <div class="absolute inset-0 z-0 opacity-10">
+      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="white" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#smallGrid)" />
+      </svg>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center animate-fade-in">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">
+          Shariah-Compliant Investment Platform
+        </h1>
+        <p class="text-xl mb-8 max-w-3xl mx-auto">
+          Connect with verified halal investment opportunities across the globe
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+          <button class="btn btn-secondary btn-lg" id="investorJourney">
+            <i data-feather="trending-up" class="h-5 w-5 mr-2"></i>
+            Start Investing
+          </button>
+          <button class="btn btn-lg hero-btn-outline" id="businessJourney">
+            <i data-feather="briefcase" class="h-5 w-5 mr-2"></i>
+            List Your Business
+          </button>
+        </div>
+        <div class="mt-8 flex justify-center space-x-4">
+          <div class="bg-white bg-opacity-20 backdrop-blur-lg rounded-lg px-4 py-2 flex items-center">
+            <i data-feather="shield" class="h-5 w-5 mr-2"></i>
+            <span>Shariah Certified</span>
+          </div>
+          <div class="bg-white bg-opacity-20 backdrop-blur-lg rounded-lg px-4 py-2 flex items-center">
+            <i data-feather="users" class="h-5 w-5 mr-2"></i>
+            <span>500+ Active Investors</span>
+          </div>
+          <div class="bg-white bg-opacity-20 backdrop-blur-lg rounded-lg px-4 py-2 flex items-center">
+            <i data-feather="globe" class="h-5 w-5 mr-2"></i>
+            <span>Global Opportunities</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="tabs space-y-8">
+      <div class="tabs-list grid grid-cols-2 md:grid-cols-5 shadow-sm">
+        <button class="tabs-trigger active" data-tab="overview">Overview</button>
+        <button class="tabs-trigger" data-tab="investments">Investments</button>
+        <button class="tabs-trigger" data-tab="business-listing">Business Listing</button>
+        <button class="tabs-trigger" data-tab="education">Education</button>
+        <button class="tabs-trigger" data-tab="features">Features</button>
+      </div>
+
+      <div id="overview" class="tabs-content active">
+        <!-- Statistics -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 animate-slide-up">
+          <div class="card">
+            <div class="card-header text-center">
+              <div class="card-title text-3xl font-bold text-green-600">$50M+</div>
+              <div class="card-description">Total Investments</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header text-center">
+              <div class="card-title text-3xl font-bold text-green-600">500+</div>
+              <div class="card-description">Active Investors</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header text-center">
+              <div class="card-title text-3xl font-bold text-green-600">100+</div>
+              <div class="card-description">Successful Deals</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header text-center">
+              <div class="card-title text-3xl font-bold text-green-600">25+</div>
+              <div class="card-description">Countries Served</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div class="card">
+            <div class="card-header">
+              <i data-feather="shield" class="h-8 w-8 text-green-600 mb-2"></i>
+              <div class="card-title">Shariah Compliance</div>
+              <div class="card-description">
+                All investments are verified by qualified Shariah scholars
+              </div>
+            </div>
+            <div class="card-content">
+              <p class="text-gray-600 mb-4">
+                Our rigorous verification process ensures all investments adhere to Islamic principles, avoiding interest (riba), uncertainty (gharar), and prohibited industries.
+              </p>
+              <button class="btn btn-outline w-full">Learn More</button>
+            </div>
+          </div>
+          
+          <div class="card">
+            <div class="card-header">
+              <i data-feather="lock" class="h-8 w-8 text-green-600 mb-2"></i>
+              <div class="card-title">Secure Platform</div>
+              <div class="card-description">
+                Bank-grade security and compliance measures
+              </div>
+            </div>
+            <div class="card-content">
+              <p class="text-gray-600 mb-4">
+                We implement the highest security standards with end-to-end encryption, multi-factor authentication, and regular security audits to protect your data and investments.
+              </p>
+              <button class="btn btn-outline w-full">Security Details</button>
+            </div>
+          </div>
+          
+          <div class="card">
+            <div class="card-header">
+              <i data-feather="users" class="h-8 w-8 text-green-600 mb-2"></i>
+              <div class="card-title">Global Network</div>
+              <div class="card-description">
+                Connect with investors and businesses worldwide
+              </div>
+            </div>
+            <div class="card-content">
+              <p class="text-gray-600 mb-4">
+                Access a diverse ecosystem of Islamic investors and businesses from over 25 countries, creating opportunities for global collaboration and growth.
+              </p>
+              <button class="btn btn-outline w-full">Explore Network</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="investments" class="tabs-content">
+        <!-- Search and Filter -->
+        <div class="flex gap-4 mb-6">
+          <div class="flex-1 relative">
+            <i data-feather="search" class="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+            <input
+              type="text"
+              placeholder="Search investments..."
+              class="input pl-10"
+            />
+          </div>
+          <button class="btn btn-outline">Filter</button>
+        </div>
+
+        <!-- Featured Deals -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Real Estate Development</div>
+              <div class="card-description">Real Estate</div>
+            </div>
+            <div class="card-content">
+              <div class="space-y-2">
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Amount:</span>
+                  <span class="font-semibold">$2.5M</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Expected Return:</span>
+                  <span class="font-semibold">12-15%</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Location:</span>
+                  <span class="font-semibold">Texas, USA</span>
+                </div>
+                <div class="flex items-center mt-4 text-green-600">
+                  <i data-feather="check-circle" class="h-4 w-4 mr-2"></i>
+                  <span class="text-sm">Fully Shariah Compliant</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Tech Startup Expansion</div>
+              <div class="card-description">Startup</div>
+            </div>
+            <div class="card-content">
+              <div class="space-y-2">
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Amount:</span>
+                  <span class="font-semibold">$500K</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Expected Return:</span>
+                  <span class="font-semibold">20-25%</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Location:</span>
+                  <span class="font-semibold">California, USA</span>
+                </div>
+                <div class="flex items-center mt-4 text-green-600">
+                  <i data-feather="check-circle" class="h-4 w-4 mr-2"></i>
+                  <span class="text-sm">Shariah Compliant</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Halal Food Chain</div>
+              <div class="card-description">Trade Finance</div>
+            </div>
+            <div class="card-content">
+              <div class="space-y-2">
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Amount:</span>
+                  <span class="font-semibold">$1.2M</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Expected Return:</span>
+                  <span class="font-semibold">15-18%</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Location:</span>
+                  <span class="font-semibold">Michigan, USA</span>
+                </div>
+                <div class="flex items-center mt-4 text-green-600">
+                  <i data-feather="check-circle" class="h-4 w-4 mr-2"></i>
+                  <span class="text-sm">Fully Shariah Compliant</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="business-listing" class="tabs-content">
+        <h2 class="text-2xl font-bold mb-4">Business Listing</h2>
+        <p class="text-gray-600 mb-4">
+          List your business on HalalVest to connect with potential investors and grow your network. 
+          Our platform provides a seamless way to showcase your business and attract Shariah-compliant investments.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">How to List Your Business</div>
+            </div>
+            <div class="card-content">
+              <p class="text-gray-600">
+                Follow these simple steps to list your business:
+              </p>
+              <ol class="list-decimal list-inside text-gray-600">
+                <li>Sign up for an account on HalalVest.</li>
+                <li>Complete your business profile with necessary details.</li>
+                <li>Submit your business for review.</li>
+                <li>Once approved, your business will be listed on our platform.</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Benefits of Listing</div>
+            </div>
+            <div class="card-content">
+              <p class="text-gray-600">
+                By listing your business, you can:
+              </p>
+              <ul class="list-disc list-inside text-gray-600">
+                <li>Gain visibility among a network of investors.</li>
+                <li>Access Shariah-compliant funding opportunities.</li>
+                <li>Showcase your business to a global audience.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="education" class="tabs-content">
+        <h2 class="text-2xl font-bold mb-4">Education</h2>
+        <p class="text-gray-600 mb-4">
+          At HalalVest, we believe in empowering our users with knowledge. Our education section provides resources to help you understand Shariah-compliant investments and financial literacy.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Webinars</div>
+            </div>
+            <div class="card-content">
+              <p class="text-gray-600">
+                Join our live webinars to learn from industry experts about various topics related to Shariah-compliant investments.
+              </p>
+              <p class="text-gray-600">
+                Upcoming Webinar: "Understanding Shariah-Compliant Investments" - April 20, 2025.
+              </p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Resources</div>
+            </div>
+            <div class="card-content">
+              <p class="text-gray-600">
+                Access a variety of resources, including articles, guides, and videos that cover:
+              </p>
+              <ul class="list-disc list-inside text-gray-600">
+                <li>Basics of Shariah-compliant investing.</li>
+                <li>Risk management strategies.</li>
+                <li>Market trends and analysis.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="features" class="tabs-content">
+        <h2 class="text-2xl font-bold mb-4">Features</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">User-Friendly Interface</div>
+              <div class="card-description">Easy navigation and accessibility.</div>
+            </div>
+            <div class="card-content">
+              <p class="text-gray-600">
+                Our platform is designed with the user in mind, ensuring a seamless experience for all users.
+              </p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Real-Time Analytics</div>
+              <div class="card-description">Stay updated with live data.</div>
+            </div>
+            <div class="card-content">
+              <p class="text-gray-600">
+                Access real-time analytics to make informed investment decisions and track your portfolio performance.
+              </p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Secure Transactions</div>
+              <div class="card-description">Your data is safe with us.</div>
+            </div>
+            <div class="card-content">
+              <p class="text-gray-600">
+                We implement top-notch security measures to protect your personal and financial information.
+              </p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">24/7 Customer Support</div>
+              <div class="card-description">We're here to help you.</div>
+            </div>
+            <div class="card-content">
+              <p class="text-gray-600">
+                Our dedicated support team is available around the clock to assist you with any inquiries.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
+        <div>
+          <h3 class="text-lg font-semibold mb-4">About</h3>
+          <p class="text-gray-400">
+            HalalVest is your trusted platform for Shariah-compliant investments
+            and business opportunities.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#" class="hover:text-green-600">How it Works</a></li>
+            <li><a href="#" class="hover:text-green-600">Investment Types</a></li>
+            <li><a href="#" class="hover:text-green-600">Success Stories</a></li>
+            <li><a href="#" class="hover:text-green-600">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Legal</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#" class="hover:text-green-600">Terms of Service</a></li>
+            <li><a href="#" class="hover:text-green-600">Privacy Policy</a></li>
+            <li><a href="#" class="hover:text-green-600">Shariah Policy</a></li>
+            <li><a href="#" class="hover:text-green-600">Compliance</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contact</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="mailto:support@halalvest.com" class="hover:text-green-600">support@halalvest.com</a></li>
+            <li>+1 (555) 123-4567</li>
+            <li>New York, USA</li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-6 text-center text-gray-400">
+        &copy; 2025 HalalVest. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.tabs-trigger').forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        document.querySelectorAll('.tabs-trigger').forEach(btn => btn.classList.remove('active'));
+        // Hide all tab contents
+        document.querySelectorAll('.tabs-content').forEach(content => content.classList.remove('active'));
+
+        // Add active class to the clicked button
+        button.classList.add('active');
+        // Show the corresponding tab content
+        const tabId = button.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html> 
