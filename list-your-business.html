@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HalalVest - List Your Business</title>
+  <!-- Tailwind CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Feather Icons -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+  <style>
+    /* Custom styles to match shadcn/ui components */
+    .card {
+      background-color: white;
+      border-radius: 0.5rem;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .card-header {
+      padding: 1.5rem;
+      padding-bottom: 0.75rem;
+    }
+    
+    .card-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #111827;
+    }
+    
+    .card-description {
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+    
+    .card-content {
+      padding: 1.5rem;
+      padding-top: 0;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      height: 2.5rem;
+      padding: 0 1rem;
+      cursor: pointer;
+    }
+    
+    .btn:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+    }
+    
+    .btn-primary {
+      background-color: #059669;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: #047857;
+      transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+      background-color: white;
+      color: #111827;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #f3f4f6;
+      transform: translateY(-2px);
+    }
+    
+    .btn-outline {
+      border: 1px solid #d1d5db;
+      background-color: transparent;
+      color: #111827;
+    }
+    
+    .btn-outline:hover {
+      background-color: #f9fafb;
+      transform: translateY(-2px);
+    }
+    
+    .btn-lg {
+      height: 3rem;
+      padding: 0 1.5rem;
+      font-size: 1rem;
+    }
+    
+    .input {
+      display: flex;
+      height: 2.5rem;
+      width: 100%;
+      border-radius: 0.375rem;
+      border: 1px solid #d1d5db;
+      background-color: white;
+      padding: 0 0.75rem;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+    
+    .input:focus {
+      outline: none;
+      border-color: transparent;
+      box-shadow: 0 0 0 2px #059669;
+    }
+    
+    .input::placeholder {
+      color: #9ca3af;
+    }
+    
+    .progress-bar {
+      height: 0.5rem;
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+    
+    .progress-value {
+      height: 100%;
+      background-color: #059669;
+      transition: width 1s ease-in-out;
+    }
+    
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 9999px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    
+    .badge-success {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+    
+    .steps {
+      display: flex;
+      counter-reset: step;
+      margin-bottom: 1.5rem;
+    }
+    
+    .step {
+      position: relative;
+      flex: 1;
+      padding-bottom: 1.5rem;
+      text-align: center;
+    }
+    
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      background-color: #f3f4f6;
+      border-radius: 9999px;
+      margin: 0 auto 0.5rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .step::after {
+      content: '';
+      position: absolute;
+      top: 1rem;
+      left: calc(50% + 1rem);
+      right: calc(50% - 1rem);
+      height: 2px;
+      background-color: #f3f4f6;
+      z-index: -1;
+      transition: background-color 0.3s ease;
+    }
+    
+    .step:last-child::after {
+      display: none;
+    }
+    
+    .step.completed::before {
+      background-color: #059669;
+      color: white;
+    }
+    
+    .step.completed::after {
+      background-color: #059669;
+    }
+    
+    .step.active::before {
+      border: 2px solid #059669;
+      box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.2);
+    }
+    
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    .animate-slide-up {
+      animation: slideUp 0.5s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    .accordion-item {
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+    }
+    
+    .accordion-header {
+      padding: 1rem 1.5rem;
+      background-color: #f9fafb;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color 0.3s;
+    }
+    
+    .accordion-header:hover {
+      background-color: #f3f4f6;
+    }
+    
+    .accordion-title {
+      font-weight: 600;
+      color: #111827;
+    }
+    
+    .accordion-content {
+      padding: 1rem 1.5rem;
+      background-color: white;
+      display: none;
+    }
+    
+    .accordion-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    
+    .textarea {
+      display: flex;
+      width: 100%;
+      border-radius: 0.375rem;
+      border: 1px solid #d1d5db;
+      background-color: white;
+      padding: 0.75rem;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+      min-height: 6rem;
+      resize: vertical;
+    }
+    
+    .textarea:focus {
+      outline: none;
+      border-color: transparent;
+      box-shadow: 0 0 0 2px #059669;
+    }
+    
+    .select {
+      display: flex;
+      height: 2.5rem;
+      width: 100%;
+      border-radius: 0.375rem;
+      border: 1px solid #d1d5db;
+      background-color: white;
+      padding: 0 0.75rem;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+      appearance: none;
+      padding-right: 2rem;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 1rem;
+    }
+    
+    .select:focus {
+      outline: none;
+      border-color: transparent;
+      box-shadow: 0 0 0 2px #059669;
+    }
+    
+    .checkbox {
+      appearance: none;
+      width: 1.25rem;
+      height: 1.25rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.25rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      position: relative;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    
+    .checkbox:checked {
+      background-color: #059669;
+      border-color: #059669;
+    }
+    
+    .checkbox:checked::after {
+      content: "";
+      width: 0.5rem;
+      height: 0.5rem;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M5 13l4 4L19 7'%3E%3C/path%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    
+    .checkbox:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.2);
+    }
+    
+    .testimonial {
+      position: relative;
+      padding: 1.5rem;
+      background-color: #f9fafb;
+      border-radius: 0.5rem;
+    }
+    
+    .testimonial::before {
+      content: """;
+      position: absolute;
+      top: -0.5rem;
+      left: 1rem;
+      font-size: 4rem;
+      color: #059669;
+      opacity: 0.2;
+      line-height: 1;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+  <!-- Hero Section -->
+  <div style="background: linear-gradient(to right, #059669, #065f46);" class="text-white py-16 relative overflow-hidden">
+    <!-- Background pattern -->
+    <div class="absolute inset-0 z-0 opacity-10">
+      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="white" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#smallGrid)" />
+      </svg>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center animate-fade-in">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">
+          List Your Business
+        </h1>
+        <p class="text-xl mb-8 max-w-3xl mx-auto">
+          Connect with verified halal investors and access Shariah-compliant funding
+        </p>
+        <div class="flex justify-center">
+          <span class="badge badge-success text-sm">
+            <i data-feather="check-circle" class="h-4 w-4 mr-2"></i>
+            100+ Businesses Successfully Funded
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Why List Your Business Section -->
+    <div class="card mb-12 animate-slide-up">
+      <div class="card-header">
+        <div class="card-title text-xl">Why List Your Business on HalalVest?</div>
+        <div class="card-description">Connect with a global network of Shariah-compliant investors</div>
+      </div>
+      <div class="card-content">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="text-center">
+            <div class="bg-green-100 h-16 w-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i data-feather="users" class="h-6 w-6 text-green-600"></i>
+            </div>
+            <h3 class="font-semibold mb-2">Access to 500+ Investors</h3>
+            <p class="text-gray-600">Showcase your business to our network of qualified investors looking for Shariah-compliant opportunities.</p>
+          </div>
+          <div class="text-center">
+            <div class="bg-green-100 h-16 w-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i data-feather="shield" class="h-6 w-6 text-green-600"></i>
+            </div>
+            <h3 class="font-semibold mb-2">Shariah Verification</h3>
+            <p class="text-gray-600">Our team of experts will review your business to ensure Shariah compliance, adding credibility to your offering.</p>
+          </div>
+          <div class="text-center">
+            <div class="bg-green-100 h-16 w-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i data-feather="trending-up" class="h-6 w-6 text-green-600"></i>
+            </div>
+            <h3 class="font-semibold mb-2">Grow Your Business</h3>
+            <p class="text-gray-600">Secure the funding you need to expand operations, develop new products, or enter new markets.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Listing Process -->
+    <div class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-center">The Listing Process</h2>
+      <div class="steps mb-8">
+        <div class="step completed">
+          <h3 class="font-medium">Apply</h3>
+          <p class="text-sm text-gray-500">Submit your business information</p>
+        </div>
+        <div class="step active">
+          <h3 class="font-medium">Verification</h3>
+          <p class="text-sm text-gray-500">Shariah compliance review</p>
+        </div>
+        <div class="step">
+          <h3 class="font-medium">Complete Profile</h3>
+          <p class="text-sm text-gray-500">Add detailed business information</p>
+        </div>
+        <div class="step">
+          <h3 class="font-medium">Go Live</h3>
+          <p class="text-sm text-gray-500">Connect with investors</p>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Step 1: Application</div>
+          </div>
+          <div class="card-content">
+            <p class="text-gray-600 mb-4">
+              Begin by completing our simple application form. We'll need basic details about your business, including:
+            </p>
+            <ul class="list-disc list-inside text-gray-600 mb-4">
+              <li>Business name and location</li>
+              <li>Industry and business type</li>
+              <li>Current stage (startup, growth, mature)</li>
+              <li>Funding requirements and objectives</li>
+              <li>Brief business overview</li>
+            </ul>
+            <p class="text-gray-600">
+              Our team will review your application within 2-3 business days.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Step 2: Shariah Verification</div>
+          </div>
+          <div class="card-content">
+            <p class="text-gray-600 mb-4">
+              Our Shariah compliance team will review your business activities to ensure they align with Islamic principles:
+            </p>
+            <ul class="list-disc list-inside text-gray-600 mb-4">
+              <li>No involvement in prohibited industries (alcohol, gambling, etc.)</li>
+              <li>Business operations free from interest (riba)</li>
+              <li>Minimal debt ratio (typically below 33%)</li>
+              <li>Ethical business practices</li>
+            </ul>
+            <p class="text-gray-600">
+              We may request additional documentation during this phase.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Step 3: Complete Your Profile</div>
+          </div>
+          <div class="card-content">
+            <p class="text-gray-600 mb-4">
+              After initial approval, you'll build your complete business profile:
+            </p>
+            <ul class="list-disc list-inside text-gray-600 mb-4">
+              <li>Detailed business plan and financial projections</li>
+              <li>Team information and background</li>
+              <li>Market analysis and competition</li>
+              <li>Use of funds and expected returns</li>
+              <li>Supporting documents (financial statements, legal documents)</li>
+              <li>Photos, videos, and other media</li>
+            </ul>
+            <p class="text-gray-600">
+              Our team provides guidance throughout this process to create an attractive profile.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Step 4: Go Live and Connect</div>
+          </div>
+          <div class="card-content">
+            <p class="text-gray-600 mb-4">
+              Once your profile is complete and approved:
+            </p>
+            <ul class="list-disc list-inside text-gray-600 mb-4">
+              <li>Your business listing goes live on HalalVest</li>
+              <li>Matched with suitable investors based on criteria</li>
+              <li>Receive notifications when investors show interest</li>
+              <li>Communicate directly with potential investors</li>
+              <li>Access to our dashboard to track engagement</li>
+            </ul>
+            <p class="text-gray-600">
+              Our platform facilitates the connection, but final investment terms are negotiated directly between you and investors.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Business Application Form -->
+    <div class="card mb-12">
+      <div class="card-header">
+        <div class="card-title text-xl">Start Your Application</div>
+        <div class="card-description">Complete the form below to begin the listing process</div>
+      </div>
+      <div class="card-content">
+        <form>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1" for="business_name">Business Name*</label>
+              <input type="text" id="business_name" class="input" placeholder="Enter business name" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1" for="business_type">Business Type*</label>
+              <select id="business_type" class="select" required>
+                <option value="" disabled selected>Select business type</option>
+                <option value="startup">Startup</option>
+                <option value="small_business">Small Business</option>
+                <option value="medium_business">Medium Business</option>
+                <option value="large_business">Large Business</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1" for="industry">Industry*</label>
+              <select id="industry" class="select" required>
+                <option value="" disabled selected>Select industry</option>
+                <option value="agriculture">Agriculture</option>
+                <option value="technology">Technology</option>
+                <option value="real_estate">Real Estate</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="education">Education</option>
+                <option value="manufacturing">Manufacturing</option>
+                <option value="retail">Retail</option>
+                <option value="food">Food & Beverage</option>
+                <option value="services">Services</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1" for="location">Primary Location*</label>
+              <input type="text" id="location" class="input" placeholder="City, Country" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1" for="funding_amount">Funding Amount (USD)*</label>
+              <input type="text" id="funding_amount" class="input" placeholder="e.g. 500000" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1" for="website">Website</label>
+              <input type="url" id="website" class="input" placeholder="https://www.example.com">
+            </div>
+          </div>
+          
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-1" for="business_description">Business Description*</label>
+            <textarea id="business_description" class="textarea" placeholder="Briefly describe your business, its mission, and current status (max 500 words)" required></textarea>
+          </div>
+          
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-1" for="funding_purpose">Purpose of Funding*</label>
+            <textarea id="funding_purpose" class="textarea" placeholder="Explain how you plan to use the funds (max 300 words)" required></textarea>
+          </div>
+          
+          <div class="mb-6">
+            <div class="flex items-start mb-4">
+              <input type="checkbox" id="shariah_compliance" class="checkbox mr-3 mt-1" required>
+              <label for="shariah_compliance" class="text-gray-700">
+                I confirm that my business operations are free from interest (riba), excessive uncertainty (gharar), and do not involve prohibited industries or activities under Islamic law.
+              </label>
+            </div>
+            
+            <div class="flex items-start">
+              <input type="checkbox" id="terms" class="checkbox mr-3 mt-1" required>
+              <label for="terms" class="text-gray-700">
+                I agree to HalalVest's <a href="#" class="text-green-600 hover:underline">Terms of Service</a> and <a href="#" class="text-green-600 hover:underline">Privacy Policy</a>, and consent to the verification process.
+              </label>
+            </div>
+          </div>
+          
+          <button type="submit" class="btn btn-primary btn-lg">Submit Application</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Success Stories -->
+    <div class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-center">Success Stories</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="testimonial">
+          <p class="text-gray-600 mb-4">
+            "HalalVest connected us with investors who truly understood our mission. We secured $1.2M in funding for our halal food chain expansion across three states."
+          </p>
+          <div class="flex items-center">
+            <div class="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+              <i data-feather="user" class="h-5 w-5 text-green-600"></i>
+            </div>
+            <div>
+              <p class="font-semibold">Ahmed Khalid</p>
+              <p class="text-sm text-gray-500">CEO, Tayyib Foods</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial">
+          <p class="text-gray-600 mb-4">
+            "As a tech startup with Shariah-compliant operations, finding the right investors was challenging until we discovered HalalVest. The platform helped us raise $500K in our seed round."
+          </p>
+          <div class="flex items-center">
+            <div class="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+              <i data-feather="user" class="h-5 w-5 text-green-600"></i>
+            </div>
+            <div>
+              <p class="font-semibold">Fatima Rahman</p>
+              <p class="text-sm text-gray-500">Founder, EthiTech Solutions</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial">
+          <p class="text-gray-600 mb-4">
+            "Our real estate development project required significant capital while maintaining Shariah compliance. HalalVest's platform facilitated connections with aligned investors, resulting in $3.5M funding."
+          </p>
+          <div class="flex items-center">
+            <div class="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+              <i data-feather="user" class="h-5 w-5 text-green-600"></i>
+            </div>
+            <div>
+              <p class="font-semibold">Omar Abdullah</p>
+              <p class="text-sm text-gray-500">Managing Director, Barakah Properties</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title text-xl">Frequently Asked Questions</div>
+      </div>
+      <div class="card-content">
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <h3 class="accordion-title">What types of businesses can list on HalalVest?</h3>
+            <i data-feather="chevron-down" class="h-5 w-5 text-gray-500"></i>
+          </div>
+          <div class="accordion-content">
+            <p class="text-gray-600">
+              HalalVest welcomes businesses from all sectors that operate in compliance with Shariah principles. This means your business must avoid prohibited activities like interest-based financing, gambling, alcohol, pork products, and other non-halal goods or services. Industries that typically qualify include technology, healthcare, education, manufacturing, retail, food & beverage (halal), real estate, and ethical services.
+            </p>
+          </div>
+        </div>
+        
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <h3 class="accordion-title">How much does it cost to list my business?</h3>
+            <i data-feather="chevron-down" class="h-5 w-5 text-gray-500"></i>
+          </div>
+          <div class="accordion-content">
+            <p class="text-gray-600">
+              Basic listing on HalalVest is free. We charge a success fee of 3-5% only when your business successfully secures funding through our platform. This ensures our interests are aligned with yours - we only succeed when you do. Premium listing options with enhanced visibility and promotion are available for a monthly subscription fee starting at $99/month.
+            </p>
+          </div>
+        </div>
+        
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <h3 class="accordion-title">How long does the verification process take?</h3>
+            <i data-feather="chevron-down" class="h-5 w-5 text-gray-500"></i>
+          </div>
+          <div class="accordion-content">
+            <p class="text-gray-600">
+              The initial review of your application typically takes 2-3 business days. The complete Shariah compliance verification can take 7-14 days to complete.
+
+
+              <!-- Footer -->
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
+      <div>
+        <h3 class="text-lg font-semibold mb-4">About</h3>
+        <p class="text-gray-400">
+          HalalVest is your trusted platform for Shariah-compliant investments
+          and business opportunities.
+        </p>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="how-it-works-page.html" class="hover:text-green-600">How it Works</a></li>
+          <li><a href="#" class="hover:text-green-600">Investment Types</a></li>
+          <li><a href="#" class="hover:text-green-600">Success Stories</a></li>
+          <li><a href="#" class="hover:text-green-600">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-4">Legal</h3>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="#" class="hover:text-green-600">Terms of Service</a></li>
+          <li><a href="#" class="hover:text-green-600">Privacy Policy</a></li>
+          <li><a href="#" class="hover:text-green-600">Shariah Policy</a></li>
+          <li><a href="#" class="hover:text-green-600">Compliance</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-4">Contact</h3>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="mailto:support@halalvest.com" class="hover:text-green-600">support@halalvest.com</a></li>
+          <li>+1 (555) 123-4567</li>
+          <li>New York, USA</li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-6 text-center text-gray-400">
+      &copy; 2025 HalalVest. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<!-- <script>
+  document.querySelectorAll('.tabs-trigger').forEach(button => {
+    button.addEventListener('click', () => {
+      // Remove active class from all buttons
+      document.querySelectorAll('.tabs-trigger').forEach(btn => btn.classList.remove('active'));
+      // Hide all tab contents
+      document.querySelectorAll('.tabs-content').forEach(content => content.classList.remove('active'));
+
+      // Add active class to the clicked button
+      button.classList.add('active');
+      // Show the corresponding tab content
+      const tabId = button.getAttribute('data-tab');
+      document.getElementById(tabId).classList.add('active');
+    });
+  });
+</script> -->
+</body>
+</html> 
