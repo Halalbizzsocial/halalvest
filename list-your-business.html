@@ -362,6 +362,52 @@
   </style>
 </head>
 <body class="min-h-screen bg-gray-50">
+  <!-- Announcement Banner -->
+  <div class="bg-green-600 text-white px-4 py-2 text-center text-sm">
+    <div class="news-ticker">
+      <div class="news-ticker-content">
+        🌙 New investment opportunities available for Ramadan 2025! | 📈 HalalVest reaches $50M total investments milestone | 🎓 Join our upcoming webinar: "Understanding Shariah-Compliant Investments" - April 20, 2025
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="bg-white shadow-sm sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+          <i data-feather="hand" class="h-8 w-8 text-green-600"></i>
+          <span class="text-2xl font-bold text-gray-900">HalalVest</span>
+        </div>
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="how-it-works-page.html" class="text-gray-500 hover:text-gray-900 transition-colors">How It Works</a>
+          <a href="#" class="text-gray-500 hover:text-gray-900 transition-colors">Browse Investments</a>
+          <a href="list-your-business.html" class="text-gray-500 hover:text-gray-900 transition-colors">List Business</a>
+          <a href="#" class="text-gray-500 hover:text-gray-900 transition-colors">Education</a>
+          <a href="#" class="text-gray-500 hover:text-gray-900 transition-colors">Community</a>
+        </div>
+        <div class="flex space-x-4 items-center">
+          <div class="hidden md:flex items-center mr-4">
+            <div class="dark-mode-toggle">
+              <span class="sr-only">Toggle dark mode</span>
+            </div>
+          </div>
+          <div class="relative mr-2 hidden md:block">
+            <button class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+              <i data-feather="bell" class="h-5 w-5 text-gray-500"></i>
+              <span class="notification-dot"></span>
+            </button>
+          </div>
+          <button class="btn btn-outline">Login</button>
+          <button class="btn btn-primary">Register</button>
+          <button class="md:hidden" id="mobile-menu-button">
+            <i data-feather="menu" class="h-6 w-6 text-gray-500"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
   <!-- Hero Section -->
   <div style="background: linear-gradient(to right, #059669, #065f46);" class="text-white py-16 relative overflow-hidden">
     <!-- Background pattern -->
@@ -711,68 +757,67 @@
           <div class="accordion-content">
             <p class="text-gray-600">
               The initial review of your application typically takes 2-3 business days. The complete Shariah compliance verification can take 7-14 days to complete.
-
-
-              <!-- Footer -->
-<!-- Footer -->
-<footer class="bg-gray-800 text-white py-12">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
-      <div>
-        <h3 class="text-lg font-semibold mb-4">About</h3>
-        <p class="text-gray-400">
-          HalalVest is your trusted platform for Shariah-compliant investments
-          and business opportunities.
-        </p>
+            </p>
+          </div>
+        </div>
       </div>
-      <div>
-        <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
-        <ul class="space-y-2 text-gray-400">
-          <li><a href="how-it-works-page.html" class="hover:text-green-600">How it Works</a></li>
-          <li><a href="#" class="hover:text-green-600">Investment Types</a></li>
-          <li><a href="#" class="hover:text-green-600">Success Stories</a></li>
-          <li><a href="#" class="hover:text-green-600">FAQ</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="text-lg font-semibold mb-4">Legal</h3>
-        <ul class="space-y-2 text-gray-400">
-          <li><a href="#" class="hover:text-green-600">Terms of Service</a></li>
-          <li><a href="#" class="hover:text-green-600">Privacy Policy</a></li>
-          <li><a href="#" class="hover:text-green-600">Shariah Policy</a></li>
-          <li><a href="#" class="hover:text-green-600">Compliance</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="text-lg font-semibold mb-4">Contact</h3>
-        <ul class="space-y-2 text-gray-400">
-          <li><a href="mailto:support@halalvest.com" class="hover:text-green-600">support@halalvest.com</a></li>
-          <li>+1 (555) 123-4567</li>
-          <li>New York, USA</li>
-        </ul>
-      </div>
-    </div>
-    <div class="mt-6 text-center text-gray-400">
-      &copy; 2025 HalalVest. All rights reserved.
     </div>
   </div>
-</footer>
 
-<!-- <script>
-  document.querySelectorAll('.tabs-trigger').forEach(button => {
-    button.addEventListener('click', () => {
-      // Remove active class from all buttons
-      document.querySelectorAll('.tabs-trigger').forEach(btn => btn.classList.remove('active'));
-      // Hide all tab contents
-      document.querySelectorAll('.tabs-content').forEach(content => content.classList.remove('active'));
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
+        <div>
+          <h3 class="text-lg font-semibold mb-4">About</h3>
+          <p class="text-gray-400">HalalVest is your trusted platform for Shariah-compliant investments and business opportunities.</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="how-it-works-page.html" class="hover:text-green-600">How it Works</a></li>
+            <li><a href="#" class="hover:text-green-600">Investment Types</a></li>
+            <li><a href="#" class="hover:text-green-600">Success Stories</a></li>
+            <li><a href="#" class="hover:text-green-600">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Legal</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#" class="hover:text-green-600">Terms of Service</a></li>
+            <li><a href="#" class="hover:text-green-600">Privacy Policy</a></li>
+            <li><a href="#" class="hover:text-green-600">Shariah Policy</a></li>
+            <li><a href="#" class="hover:text-green-600">Compliance</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contact</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="mailto:support@halalvest.com" class="hover:text-green-600">support@halalvest.com</a></li>
+            <li>+1 (555) 123-4567</li>
+            <li>New York, USA</li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-6 text-center text-gray-400">&copy; 2025 HalalVest. All rights reserved.</div>
+    </div>
+  </footer>
 
-      // Add active class to the clicked button
-      button.classList.add('active');
-      // Show the corresponding tab content
-      const tabId = button.getAttribute('data-tab');
-      document.getElementById(tabId).classList.add('active');
+  <script>
+    document.querySelectorAll('.tabs-trigger').forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        document.querySelectorAll('.tabs-trigger').forEach(btn => btn.classList.remove('active'));
+        // Hide all tab contents
+        document.querySelectorAll('.tabs-content').forEach(content => content.classList.remove('active'));
+
+        // Add active class to the clicked button
+        button.classList.add('active');
+        // Show the corresponding tab content
+        const tabId = button.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+      });
     });
-  });
-</script> -->
+  </script>
 </body>
 </html> 
